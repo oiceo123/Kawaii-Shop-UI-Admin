@@ -11,9 +11,10 @@ const { Sider } = Layout;
 
 interface Props {
   items: MenuItem[];
+  onClick: (e) => void;
 }
 
-const SidebarComponent: React.FC<Props> = ({ items }) => {
+const SidebarComponent: React.FC<Props> = ({ items, onClick }) => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -35,9 +36,10 @@ const SidebarComponent: React.FC<Props> = ({ items }) => {
       </div>
       <Menu
         theme="dark"
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={["Products"]}
         mode="inline"
         items={items}
+        onClick={onClick}
         className="web-components-sidebar-list"
       />
     </Sider>

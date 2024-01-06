@@ -1,4 +1,8 @@
 import React from "react";
+import axios from "../../api";
+import { useAppDispatch } from "../../redux";
+import { logout } from "../../redux/slices/authSlice";
+
 import {
   AppstoreOutlined,
   AppstoreAddOutlined,
@@ -7,6 +11,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import SidebarComponent from "../../components/Sidebar";
+import Swal from "sweetalert2";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -24,15 +29,48 @@ function getItem(
   } as MenuItem;
 }
 
-const items: MenuItem[] = [
-  getItem("Products", "1", <AppstoreOutlined />),
-  getItem("Add Proudct", "2", <AppstoreAddOutlined />),
-  getItem("User", "3", <UserOutlined />),
-  getItem("Logout", "4", <LogoutOutlined />),
-];
-
 const SidebarContainer: React.FC = () => {
-  return <SidebarComponent items={items} />;
+  const dispatch = useAppDispatch();
+
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post(
+        "/users/signout",
+        { oauth_id: localStorage.getItem("oid") },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+      if (res.status === 200) {
+        localStorage.removeItem("oid");
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        dispatch(logout());
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        text: "An error occurred. Please try again later.",
+      });
+    }
+  };
+
+  const items: MenuItem[] = [
+    getItem("Products", "Products", <AppstoreOutlined />),
+    getItem("Add Proudct", "Add Proudct", <AppstoreAddOutlined />),
+    getItem("User", "User", <UserOutlined />),
+    getItem("Logout", "Logout", <LogoutOutlined />),
+  ];
+
+  const onClick: MenuProps["onClick"] = (e) => {
+    if (e.key === "Logout") {
+      handleLogout();
+    }
+  };
+
+  return <SidebarComponent items={items} onClick={onClick} />;
 };
 
 export default SidebarContainer;
