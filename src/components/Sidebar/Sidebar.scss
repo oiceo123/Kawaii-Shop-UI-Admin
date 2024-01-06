@@ -1,0 +1,36 @@
+.web-components-sidebar-container {
+  overflow: auto;
+  height: 100vh;
+  position: sticky !important;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  user-select: none; /* standard syntax */
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit (konqueror) browsers */
+  -ms-user-select: none; /* IE10+ */
+}
+
+.web-components-sidebar-logo {
+  color: white;
+  text-align: center;
+  padding-top: 16px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid white;
+}
+
+/* .web-components-sidebar-list {
+  li:nth-last-child(1) {
+    &:hover {
+      background-color: red;
+    }
+    &.ant-menu-item-selected {
+      background-color: red;
+    }
+    &.ant-menu-item:not(.ant-menu-item-selected):hover {
+      background-color: red;
+    }
+  }
+} */
