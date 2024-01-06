@@ -1,0 +1,19 @@
+.web-components-sign-in-container {
+  height: 80vh;
+  width: 70%;
+  border-radius: 10px;
+  background-color: white;
+  padding: 16px 18px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: rgba(0, 0, 0, 0.875) 0px 5px 17px;
+
+  .ant-typography,
+  .ant-form-item-row {
+    padding-bottom: 6px;
+  }
+
+  .ant-input-prefix {
+    margin-right: 10px;
+  }
+}
