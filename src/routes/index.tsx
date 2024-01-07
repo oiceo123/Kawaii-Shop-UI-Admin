@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
-import { Switch, Route, useHistory } from "react-router-dom";
+import React from "react";
+import { Switch, Route } from "react-router-dom";
+import PrivateRoute from "./PrivateRoute";
 import { useAppSelector } from "../redux";
 
 import { Layout } from "antd";
@@ -10,16 +11,7 @@ import SidebarContainer from "../containers/Sidebar";
 const { Content } = Layout;
 
 const Router: React.FC = () => {
-  const history = useHistory();
   const { user } = useAppSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (user) {
-      history.push("/");
-    } else {
-      history.push("signin");
-    }
-  }, [user, history]);
 
   if (user) {
     return (
@@ -27,8 +19,11 @@ const Router: React.FC = () => {
         <SidebarContainer />
         <Content style={{ margin: "16px" }}>
           <Switch>
-            <Route path="/" exact>
+            <PrivateRoute path="/" exact>
               <Home />
+            </PrivateRoute>
+            <Route path="/signin" exact>
+              <SignIn />
             </Route>
           </Switch>
         </Content>
@@ -38,6 +33,9 @@ const Router: React.FC = () => {
 
   return (
     <Switch>
+      <PrivateRoute path="/" exact>
+        <Home />
+      </PrivateRoute>
       <Route path="/signin" exact>
         <SignIn />
       </Route>

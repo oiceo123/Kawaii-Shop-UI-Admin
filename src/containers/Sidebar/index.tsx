@@ -2,6 +2,7 @@ import React from "react";
 import axios from "../../api";
 import { useAppDispatch } from "../../redux";
 import { logout } from "../../redux/slices/authSlice";
+import { useHistory } from "react-router-dom";
 
 import {
   AppstoreOutlined,
@@ -30,6 +31,7 @@ function getItem(
 }
 
 const SidebarContainer: React.FC = () => {
+  const history = useHistory();
   const dispatch = useAppDispatch();
 
   const handleLogout = async () => {
@@ -48,6 +50,7 @@ const SidebarContainer: React.FC = () => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         dispatch(logout());
+        history.push("/signin");
       }
     } catch (error) {
       Swal.fire({

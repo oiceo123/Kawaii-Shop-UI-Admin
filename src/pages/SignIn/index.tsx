@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "../../api";
 import { useAppDispatch } from "../../redux";
 import { setUser } from "../../redux/slices/authSlice";
+import { useHistory } from "react-router-dom";
 
 import "./SignIn.scss";
 import Swal from "sweetalert2";
@@ -16,6 +17,7 @@ export type SignInFieldType = {
 };
 
 const SignIn: React.FC = () => {
+  const history = useHistory();
   const dispatch = useAppDispatch();
   const [background, setBackground] = useState<string>("");
 
@@ -42,6 +44,7 @@ const SignIn: React.FC = () => {
         localStorage.setItem("oid", res.data.token.id);
         localStorage.setItem("access_token", res.data.token.access_token);
         localStorage.setItem("refresh_token", res.data.token.refresh_token);
+        history.replace("/");
       }
     } catch (error) {
       if (error instanceof Error && error.message === "Unauthorize") {
@@ -49,7 +52,7 @@ const SignIn: React.FC = () => {
           icon: "error",
           text: "Unauthorize",
         });
-        return
+        return;
       }
       if (
         error.response?.data?.message === "password is invalid" ||
