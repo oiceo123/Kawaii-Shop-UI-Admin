@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useHistory  } from "react-router-dom";
-import type { Product } from "../../types/Product";
-import axios from "../../api";
+import React from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { useProductFetch } from "../../hooks/useProductFetch";
 
 import Swal from "sweetalert2";
 import { Row, Col, Card } from "antd";
@@ -14,28 +13,19 @@ type ParamsType = {
 };
 
 const ProductDetail: React.FC = () => {
-  const { productId } = useParams<ParamsType>();
-  const [product, setProduct] = useState<Product>();
   const history = useHistory();
+  const { productId } = useParams<ParamsType>();
+  const { product, error } = useProductFetch(productId);
 
-  useEffect(() => {
-    fetchProduct(productId);
-  }, []);
-
-  const fetchProduct = async (id: string) => {
-    try {
-      const res = await axios.get(`/products/${id}`);
-      if (res.data) {
-        setProduct(res.data);
-      }
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        text: "An error occurred. Please try again later.",
-      });
-      history.replace("/");
-    }
-  };
+  if (error) {
+    Swal.fire({
+      icon: "error",
+      text: "An error occurred. Please try again later.",
+      confirmButtonText: "OK",
+    }).then((result) => {
+      if (result.isConfirmed) history.replace("/signin");
+    });
+  }
 
   return (
     <Row justify="center">

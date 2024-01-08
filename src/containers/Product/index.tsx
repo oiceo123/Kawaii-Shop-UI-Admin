@@ -1,34 +1,25 @@
-import React, { useEffect, useState } from "react";
-import axios from "../../api";
-import { Link } from "react-router-dom";
-import type { Product } from "../../types/Product";
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
+import { useProductsFetch } from "../../hooks/useProductsFetch";
 
 import Swal from "sweetalert2";
 import { Col } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CardComponent from "../../components/Card";
 
-
 const ProductContainer: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const history = useHistory();
+  const { products, error } = useProductsFetch();
 
-  useEffect(() => {
-    fetchProduct();
-  }, []);
-
-  const fetchProduct = async () => {
-    try {
-      const res = await axios.get("/products");
-      if (res.data.data) {
-        setProducts(res.data.data);
-      }
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        text: "An error occurred. Please try again later.",
-      });
-    }
-  };
+  if (error) {
+    Swal.fire({
+      icon: "error",
+      text: "An error occurred. Please try again later.",
+      confirmButtonText: "OK",
+    }).then((result) => {
+      if (result.isConfirmed) history.replace("/signin");
+    });
+  }
 
   return (
     <>
