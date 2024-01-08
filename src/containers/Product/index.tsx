@@ -1,32 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../api";
 import { Link } from "react-router-dom";
+import type { Product } from "../../types/Product";
 
 import Swal from "sweetalert2";
 import { Col } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CardComponent from "../../components/Card";
 
-type Products = {
-  id: string;
-  title: string;
-  price: number;
-  description: string;
-  category: {
-    id: number;
-    title: string;
-  };
-  images: {
-    id: string;
-    filename: string;
-    url: string;
-  }[];
-  created_at: string;
-  updated_at: string;
-}[];
 
 const ProductContainer: React.FC = () => {
-  const [products, setProducts] = useState<Products>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     fetchProduct();
