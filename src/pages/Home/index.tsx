@@ -1,8 +1,9 @@
 import React from "react";
+
 import "./Home.scss";
 import { Col, Row, Pagination } from "antd";
-import CardComponent from "../../components/Card";
 import InputSearchContainer from "../../containers/InputSearch";
+import ProductContainer from "../../containers/Product";
 
 const Home: React.FC = () => {
   return (
@@ -16,30 +17,7 @@ const Home: React.FC = () => {
         </Col>
       </Row>
       <Row gutter={[16, 16]}>
-        <Col span={6}>
-          <CardComponent />
-        </Col>
-        <Col span={6}>
-          <CardComponent />
-        </Col>
-        <Col span={6}>
-          <CardComponent />
-        </Col>
-        <Col span={6}>
-          <CardComponent />
-        </Col>
-        <Col span={6}>
-          <CardComponent />
-        </Col>
-        <Col span={6}>
-          <CardComponent />
-        </Col>
-        <Col span={6}>
-          <CardComponent />
-        </Col>
-        <Col span={6}>
-          <CardComponent />
-        </Col>
+        <ProductContainer />
       </Row>
       <Pagination
         className="web-pages-home-pagination-container"

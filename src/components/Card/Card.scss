@@ -1,0 +1,25 @@
+.web-components-card-container {
+  height: 340px;
+
+  .ant-card-cover {
+    height: 52%;
+    img {
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .ant-card-body {
+    height: 34%;
+
+    .ant-card-meta-description {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .ant-card-actions {
+    height: 14%;
+  }
+}
