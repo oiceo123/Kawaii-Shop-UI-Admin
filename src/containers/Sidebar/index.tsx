@@ -68,6 +68,9 @@ const SidebarContainer: React.FC = () => {
   ];
 
   const onClick: MenuProps["onClick"] = (e) => {
+    if (e.key === "Products") {
+      history.push("/");
+    }
     if (e.key === "Logout") {
       handleLogout();
     }
