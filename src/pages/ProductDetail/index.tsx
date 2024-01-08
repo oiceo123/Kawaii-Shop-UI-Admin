@@ -1,13 +1,70 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useHistory  } from "react-router-dom";
+import type { Product } from "../../types/Product";
+import axios from "../../api";
+
+import Swal from "sweetalert2";
+import { Row, Col, Card } from "antd";
+import "./ProductDetail.scss";
+import ImageGroupComponent from "../../components/ImageGroup";
+import ProductDetailComponent from "../../components/ProductDetail";
+
+type ParamsType = {
+  productId: string;
+};
 
 const ProductDetail: React.FC = () => {
-  const { productId } = useParams<{productId: string}>();
+  const { productId } = useParams<ParamsType>();
+  const [product, setProduct] = useState<Product>();
+  const history = useHistory();
+
+  useEffect(() => {
+    fetchProduct(productId);
+  }, []);
+
+  const fetchProduct = async (id: string) => {
+    try {
+      const res = await axios.get(`/products/${id}`);
+      if (res.data) {
+        setProduct(res.data);
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        text: "An error occurred. Please try again later.",
+      });
+      history.replace("/");
+    }
+  };
 
   return (
-    <div>
-      <h1>ProductDetail {productId}</h1>
-    </div>
+    <Row justify="center">
+      <Col span={24}>
+        <Row className="web-pages-productDetail-image-container">
+          <Col span={10} className="web-pages-productDetail-col-image">
+            <ImageGroupComponent
+              images={product?.images.map((image) => image.url) || []}
+            />
+          </Col>
+          <Col span={14} className="web-pages-productDetail-col-detail">
+            <ProductDetailComponent
+              title={product?.title || ""}
+              price={product?.price || 9999999}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <Card
+              title="Product Detail"
+              className="web-pages-productDetail-description-container"
+            >
+              {product?.description}
+            </Card>
+          </Col>
+        </Row>
+      </Col>
+    </Row>
   );
 };
 

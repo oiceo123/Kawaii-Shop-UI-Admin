@@ -1,0 +1,29 @@
+.web-pages-productDetail-image-container {
+  background-color: white;
+  margin-top: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 10px;
+}
+
+.web-pages-productDetail-col-image {
+  padding: 15px;
+}
+
+.web-pages-productDetail-col-detail {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 35px;
+}
+
+.web-pages-productDetail-description-container {
+  margin-top: 16px;
+  margin-bottom: 30px;
+  font-size: 1rem;
+  border: 0;
+  border-radius: 0;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 10px;
+
+  .ant-card-head-title {
+    font-size: 1.25rem;
+  }
+}
