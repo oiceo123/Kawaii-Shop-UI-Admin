@@ -1,0 +1,13 @@
+.web-components-uploadImage-container {
+  padding-top: 24px;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+
+  .ant-upload-list-item-container,
+  .ant-upload-select {
+    width: 18% !important;
+    height: 160px !important;
+  }
+}
