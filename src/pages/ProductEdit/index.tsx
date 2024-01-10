@@ -1,8 +1,12 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
+type ParamsType = {
+  productId: string;
+};
+
 const ProductEdit: React.FC = () => {
-  const { productId } = useParams<{ productId: string }>();
+  const { productId } = useParams<ParamsType>();
 
   return (
     <div>
