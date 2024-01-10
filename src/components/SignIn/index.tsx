@@ -12,10 +12,18 @@ interface Props {
 }
 
 const SignInComponent: React.FC<Props> = ({ onSignIn }) => {
+  const [form] = Form.useForm();
+
   return (
     <Flex vertical className="web-components-sign-in-container">
       <Title level={2}>Sign in</Title>
-      <Form name="basic" onFinish={onSignIn} autoComplete="off" size="large">
+      <Form
+        form={form}
+        name="sign-in"
+        onFinish={onSignIn}
+        autoComplete="off"
+        size="large"
+      >
         <Form.Item
           name="email"
           rules={[{ required: true, message: "Please input your email" }]}
