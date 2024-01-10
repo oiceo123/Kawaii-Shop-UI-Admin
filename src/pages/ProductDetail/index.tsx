@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { useProductFetch } from "../../hooks/useProductFetch";
+import { useProductFetch } from "../../hooks";
 
 import Swal from "sweetalert2";
 import { Row, Col, Card } from "antd";
