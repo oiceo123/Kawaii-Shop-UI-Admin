@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useProductsFetch } from "../../hooks/useProductsFetch";
+import { useProductsFetch } from "../../hooks";
 
 import Swal from "sweetalert2";
 import { Col } from "antd";
@@ -25,19 +25,26 @@ const ProductContainer: React.FC = () => {
     <>
       {products &&
         products.map((product) => (
-          <Col span={6}>
-            <Link to={`product/${product.id}`}>
+          <Col span={6} key={product.id}>
+            <Link to={`/product/${product.id}`}>
               <CardComponent
                 title={product.title}
                 cover={product.images[0].url}
                 description={product.description}
                 actions={[
-                  <Link to={`product/edit/${product.id}`}>
+                  <div
+                    onClick={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      history.push(`/product/edit/${product.id}`);
+                    }}
+                    style={{ cursor: "pointer" }}
+                  >
                     <EditOutlined
                       key="edit"
                       style={{ fontSize: "1rem", color: "#43acf7" }}
                     />
-                  </Link>,
+                  </div>,
                   <DeleteOutlined
                     key="delete"
                     style={{ fontSize: "1rem", color: "red" }}
