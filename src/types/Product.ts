@@ -15,3 +15,12 @@ export type Product = {
   created_at: string;
   updated_at: string;
 };
+
+export type ProductAddForm = {
+  title: string;
+  category: {
+    id: number;
+  };
+  price: number;
+  description: string;
+};
