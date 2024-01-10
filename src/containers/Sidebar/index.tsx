@@ -71,6 +71,9 @@ const SidebarContainer: React.FC = () => {
     if (e.key === "Products") {
       history.push("/");
     }
+    if (e.key === "Add Proudct") {
+      history.push("/product/add");
+    }
     if (e.key === "Logout") {
       handleLogout();
     }
