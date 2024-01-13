@@ -1,3 +1,8 @@
+export type Image = {
+  filename: string;
+  url: string;
+};
+
 export type Product = {
   id: string;
   title: string;
@@ -7,11 +12,7 @@ export type Product = {
     id: number;
     title: string;
   };
-  images: {
-    id: string;
-    filename: string;
-    url: string;
-  }[];
+  images: (Image & { id: string })[];
   created_at: string;
   updated_at: string;
 };
