@@ -4,10 +4,12 @@
   margin-bottom: 24px;
   border: 1px solid #d9d9d9;
   border-radius: 6px;
+  text-align: center;
 
   .ant-upload-list-item-container,
   .ant-upload-select {
+    aspect-ratio: 1/1;
     width: 18% !important;
-    height: 160px !important;
+    height: auto !important;
   }
 }
