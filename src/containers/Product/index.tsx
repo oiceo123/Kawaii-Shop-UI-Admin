@@ -9,9 +9,9 @@ import CardComponent from "../../components/Card";
 
 const ProductContainer: React.FC = () => {
   const history = useHistory();
-  const { products, error } = useProductsFetch();
+  const { products, productsError } = useProductsFetch();
 
-  if (error) {
+  if (productsError) {
     Swal.fire({
       icon: "error",
       text: "An error occurred. Please try again later.",
@@ -30,7 +30,6 @@ const ProductContainer: React.FC = () => {
               <CardComponent
                 title={product.title}
                 cover={product.images[0].url}
-                description={product.description}
                 actions={[
                   <div
                     onClick={(event) => {
