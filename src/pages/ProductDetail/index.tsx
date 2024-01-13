@@ -23,6 +23,7 @@ const ProductDetail: React.FC = () => {
       icon: "error",
       text: "An error occurred. Please try again later.",
       confirmButtonText: "OK",
+      allowOutsideClick: false,
     }).then((result) => {
       if (result.isConfirmed) history.replace("/signin");
     });
