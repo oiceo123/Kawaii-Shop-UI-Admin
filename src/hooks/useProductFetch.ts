@@ -4,7 +4,7 @@ import axios from "../api";
 
 export const useProductFetch = (productId: string) => {
   const [product, setProduct] = useState<Product>();
-  const [error, setError] = useState();
+  const [productError, setProductError] = useState();
 
   const fetchProduct = async (productId: string) => {
     try {
@@ -13,7 +13,7 @@ export const useProductFetch = (productId: string) => {
         setProduct(res.data);
       }
     } catch (error) {
-      setError(error);
+      setProductError(error);
     }
   };
 
@@ -21,5 +21,5 @@ export const useProductFetch = (productId: string) => {
     fetchProduct(productId);
   }, [productId]);
 
-  return { product, error };
+  return { product, productError };
 };

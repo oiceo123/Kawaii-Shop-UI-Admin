@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useProductFetch } from "../../hooks";
+import parse from "html-react-parser";
 
 import Swal from "sweetalert2";
 import { Row, Col, Card } from "antd";
@@ -15,9 +16,9 @@ type ParamsType = {
 const ProductDetail: React.FC = () => {
   const history = useHistory();
   const { productId } = useParams<ParamsType>();
-  const { product, error } = useProductFetch(productId);
+  const { product, productError } = useProductFetch(productId);
 
-  if (error) {
+  if (productError) {
     Swal.fire({
       icon: "error",
       text: "An error occurred. Please try again later.",
@@ -49,7 +50,7 @@ const ProductDetail: React.FC = () => {
               title="Product Detail"
               className="web-pages-productDetail-description-container"
             >
-              {product?.description}
+              {product?.description ? parse(product?.description) : ""}
             </Card>
           </Col>
         </Row>
