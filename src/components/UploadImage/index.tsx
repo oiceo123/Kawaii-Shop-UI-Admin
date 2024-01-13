@@ -1,12 +1,14 @@
 import React from "react";
 
 import "./UploadImage.scss";
-import ImgCrop from "antd-img-crop";
+/* import ImgCrop from "antd-img-crop"; */
 import { Modal, Upload } from "antd";
 import type { UploadProps } from "antd/es/upload/interface";
 
 interface Props {
+  accept: UploadProps["accept"];
   action: UploadProps["action"];
+  beforeUpload: UploadProps["beforeUpload"];
   headers: UploadProps["headers"];
   name: UploadProps["name"];
   data: UploadProps["data"];
@@ -23,7 +25,9 @@ interface Props {
 
 const UploadImageComponent: React.FC<Props> = (props) => {
   const {
+    accept,
     action,
+    beforeUpload,
     data,
     fileList,
     maxCount,
@@ -40,22 +44,22 @@ const UploadImageComponent: React.FC<Props> = (props) => {
 
   return (
     <>
-      <ImgCrop rotationSlider>
-        <Upload
-          action={action}
-          headers={headers}
-          name={name}
-          data={data}
-          listType={listType}
-          fileList={fileList}
-          maxCount={maxCount}
-          onPreview={onPreview}
-          onChange={onChange}
-          className="web-components-uploadImage-container"
-        >
-          {fileList!.length >= maxCount! ? null : uploadButton}
-        </Upload>
-      </ImgCrop>
+      <Upload
+        accept={accept}
+        action={action}
+        beforeUpload={beforeUpload}
+        headers={headers}
+        name={name}
+        data={data}
+        listType={listType}
+        fileList={fileList}
+        maxCount={maxCount}
+        onPreview={onPreview}
+        onChange={onChange}
+        className="web-components-uploadImage-container"
+      >
+        {fileList!.length >= maxCount! ? null : uploadButton}
+      </Upload>
       <Modal
         open={previewOpen}
         onCancel={handleCancel}
