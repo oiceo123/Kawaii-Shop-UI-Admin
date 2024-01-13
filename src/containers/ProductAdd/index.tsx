@@ -1,17 +1,86 @@
 import React, { useState } from "react";
+import axios from "../../api";
+import { useHistory } from "react-router-dom";
 import { getBase64 } from "../../helpers/getBase64";
-import type { ProductAddForm } from "../../types/Product";
+/* import { resizeImage } from "../../helpers/resizeImage"; */
+/* import { checkImageWidth } from "../../helpers/checkImageWidth"; */
+import type { Image, ProductAddForm } from "../../types/Product";
+import { useCategoriesFetch } from "../../hooks/useCategoriesFetch";
 
 import Swal from "sweetalert2";
+import { Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 import UploadImageComponent from "../../components/UploadImage";
 import ProductAddComponent from "../../components/ProductAdd";
 
 const ProductAddContainer: React.FC = () => {
+  const history = useHistory();
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [images, setImages] = useState<Image[]>([]);
+  const { categories, categoriesError } = useCategoriesFetch();
+
+  if (categoriesError) {
+    Swal.fire({
+      icon: "error",
+      text: "An error occurred. Please try again later.",
+      confirmButtonText: "OK",
+      allowOutsideClick: false,
+    }).then((result) => {
+      if (result.isConfirmed) history.replace("/signin");
+    });
+  }
+
+  const handleBeforeUpload: UploadProps["beforeUpload"] = async (file) => {
+    if (file.size > import.meta.env.VITE_FILE_LIMIT) {
+      Swal.fire({
+        icon: "error",
+        text: "file size must less than 2 MB",
+      });
+      return Upload.LIST_IGNORE;
+    }
+
+    /* const width = await checkImageWidth(file); */
+    /* if (width > 1440) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+          const img = new Image();
+          img.src = event.target!.result as string;
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d")!;
+
+            const newWidth = 1400; // กำหนดความกว้างใหม่
+            const newHeight = 1000; // คำนวณความสูงใหม่ตามอัตราส่วน
+
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            canvas.toBlob((result) =>
+              resolve(
+                new File([result as Blob], file.name, { type: file.type })
+              )
+            );
+          };
+        };
+      });
+    } */
+
+    /* if (width > 1440) {
+      const resizedImage = await resizeImage(file);
+      console.log("resizedImage", resizedImage);
+      return new Promise((resolve) => {
+        resolve(resizedImage as Blob);
+      });
+    } */
+
+    return true;
+  };
 
   const handleCancel = () => {
     setPreviewImage("");
@@ -36,6 +105,7 @@ const ProductAddContainer: React.FC = () => {
         ...newFileList[newFileList.length - 1],
         url: file.response[0].url,
       };
+      setImages([...images, file.response[0]]);
     }
     if (file.status === "error") {
       newFileList.pop();
@@ -65,16 +135,36 @@ const ProductAddContainer: React.FC = () => {
   );
 
   const onProductAdd = async (value: ProductAddForm) => {
-    const { title, category, price, description } = value;
-    console.log("title", title);
-    console.log("category", category);
-    console.log("price", price);
-    console.log("description", description);
+    try {
+      const { title, category, price, description } = value;
+      const res = await axios.post("/products", {
+        title,
+        description,
+        category,
+        price,
+        images,
+      });
+      if (res.data) {
+        setFileList([]);
+        Swal.fire({
+          icon: "success",
+          text: "Product addition successful",
+        });
+        return Promise.resolve(true);
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        text: "An error occurred. Please try again later.",
+      });
+      return Promise.reject(false);
+    }
   };
 
   return (
     <>
       <UploadImageComponent
+        accept="image/png, image/jpg, image/jpeg"
         action={`${import.meta.env.VITE_API_URL}/files/upload`}
         headers={{
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -84,6 +174,7 @@ const ProductAddContainer: React.FC = () => {
         listType="picture-card"
         fileList={fileList}
         maxCount={10}
+        beforeUpload={handleBeforeUpload}
         onPreview={handlePreview}
         onChange={handleChange}
         handleCancel={handleCancel}
@@ -91,7 +182,10 @@ const ProductAddContainer: React.FC = () => {
         previewOpen={previewOpen}
         uploadButton={uploadButton}
       />
-      <ProductAddComponent onProductAdd={onProductAdd} />
+      <ProductAddComponent
+        categories={categories}
+        onProductAdd={onProductAdd}
+      />
     </>
   );
 };
