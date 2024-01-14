@@ -45,6 +45,7 @@ const UploadImageComponent: React.FC<Props> = (props) => {
   return (
     <>
       <Upload
+        multiple
         accept={accept}
         action={action}
         beforeUpload={beforeUpload}
