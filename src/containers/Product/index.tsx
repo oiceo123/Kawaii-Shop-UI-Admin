@@ -38,17 +38,19 @@ const ProductContainer: React.FC = () => {
                       event.stopPropagation();
                       history.push(`/product/edit/${product.id}`);
                     }}
-                    style={{ cursor: "pointer" }}
                   >
                     <EditOutlined
                       key="edit"
                       style={{ fontSize: "1rem", color: "#43acf7" }}
                     />
                   </div>,
-                  <DeleteOutlined
-                    key="delete"
-                    style={{ fontSize: "1rem", color: "red" }}
-                  />,
+                  <div>
+                    <DeleteOutlined
+                      key="delete"
+                      style={{ fontSize: "1rem", color: "red" }}
+                    />
+                    ,
+                  </div>,
                 ]}
               />
             </Link>
