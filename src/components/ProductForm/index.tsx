@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import type { ProductAddForm } from "../../types/Product";
@@ -8,24 +8,49 @@ import "./ProductAdd.scss";
 import { Form, Input, InputNumber, Select, Button } from "antd";
 
 interface Props {
+  buttonTitle: string;
   categories: Category[];
-  onProductAdd: (values: ProductAddForm) => Promise<boolean | undefined>;
+  valueTitle?: string;
+  valueCategory?: { value: number; label: string };
+  valuePrice?: number;
+  valueDescription?: string;
+  onFinish: (values: ProductAddForm) => Promise<boolean | undefined>;
 }
 
-const ProductAddComponent: React.FC<Props> = (props) => {
+const ProductFormComponent: React.FC<Props> = (props) => {
+  const {
+    buttonTitle,
+    categories,
+    valueTitle,
+    valueCategory,
+    valuePrice,
+    valueDescription,
+    onFinish,
+  } = props;
+
   const [form] = Form.useForm();
-  const { categories, onProductAdd } = props;
+
+  useEffect(() => {
+    form.setFieldValue("title", valueTitle);
+    form.setFieldValue("category", valueCategory);
+    form.setFieldValue("price", valuePrice);
+    form.setFieldValue("description", valueDescription);
+  }, []);
 
   return (
     <Form
       form={form}
-      name="product-add"
+      name="form-add-or-edit"
       layout="vertical"
       onFinish={async () => {
         try {
-          const res = await onProductAdd!({
+          const res = await onFinish!({
             title: form.getFieldValue("title"),
-            category: { id: form.getFieldValue("category") },
+            category: {
+              id: form.getFieldValue("category").value
+                ? form.getFieldValue("category").value
+                : form.getFieldValue("category"),
+            },
             price: form.getFieldValue("price"),
             description: form.getFieldValue("description"),
           });
@@ -36,6 +61,7 @@ const ProductAddComponent: React.FC<Props> = (props) => {
           console.error("เกิดข้อผิดพลาด");
         }
       }}
+      scrollToFirstError
     >
       <Form.Item name="title" label="Title">
         <Input />
@@ -75,11 +101,11 @@ const ProductAddComponent: React.FC<Props> = (props) => {
           size="large"
           style={{ width: "100%" }}
         >
-          Add Product
+          {buttonTitle}
         </Button>
       </Form.Item>
     </Form>
   );
 };
 
-export default ProductAddComponent;
+export default ProductFormComponent;
