@@ -5,14 +5,14 @@ import { getBase64 } from "../../helpers/getBase64";
 /* import { resizeImage } from "../../helpers/resizeImage"; */
 /* import { checkImageWidth } from "../../helpers/checkImageWidth"; */
 import type { Image, ProductAddForm } from "../../types/Product";
-import { useCategoriesFetch } from "../../hooks/useCategoriesFetch";
+import { useCategoriesFetch } from "../../hooks";
 
 import Swal from "sweetalert2";
 import { Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 import UploadImageComponent from "../../components/UploadImage";
-import ProductAddComponent from "../../components/ProductAdd";
+import ProductFormComponent from "../../components/ProductForm";
 
 const ProductAddContainer: React.FC = () => {
   const history = useHistory();
@@ -182,9 +182,10 @@ const ProductAddContainer: React.FC = () => {
         previewOpen={previewOpen}
         uploadButton={uploadButton}
       />
-      <ProductAddComponent
+      <ProductFormComponent
+        buttonTitle="Add Product"
         categories={categories}
-        onProductAdd={onProductAdd}
+        onFinish={onProductAdd}
       />
     </>
   );
