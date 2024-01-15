@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../api";
 import { useAppDispatch } from "../../redux";
-import { setUser } from "../../redux/slices/authSlice";
+import { setUserLoading, setUser } from "../../redux/slices/authSlice";
 import { useHistory } from "react-router-dom";
 
 import "./SignIn.scss";
@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import { Row, Col } from "antd";
 import SignInComponent from "../../components/SignIn";
 import Background from "../../assets/jpg/background.jpg";
-import LoadingComponent from "../../components/Loading";
+/* import LoadingComponent from "../../components/Loading"; */
 
 export type SignInFieldType = {
   email: string;
@@ -26,6 +26,7 @@ const SignIn: React.FC = () => {
   }, []);
 
   const onSignIn = async ({ email, password }: SignInFieldType) => {
+    dispatch(setUserLoading(true));
     try {
       const res = await axios.post(
         "/users/signin",
@@ -41,6 +42,7 @@ const SignIn: React.FC = () => {
       }
       if (res.data.user && res.data.token) {
         dispatch(setUser(res.data.user));
+        localStorage.setItem("uid", res.data.user.id);
         localStorage.setItem("oid", res.data.token.id);
         localStorage.setItem("access_token", res.data.token.access_token);
         localStorage.setItem("refresh_token", res.data.token.refresh_token);
@@ -68,12 +70,14 @@ const SignIn: React.FC = () => {
           text: "An error occurred. Please try again later.",
         });
       }
+    } finally {
+      dispatch(setUserLoading(false));
     }
   };
 
-  if (!background) {
+/*   if (!background) {
     return <LoadingComponent />;
-  }
+  } */
 
   return (
     <Row

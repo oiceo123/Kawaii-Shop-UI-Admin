@@ -46,6 +46,7 @@ const SidebarContainer: React.FC = () => {
         }
       );
       if (res.status === 200) {
+        localStorage.removeItem("uid");
         localStorage.removeItem("oid");
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
