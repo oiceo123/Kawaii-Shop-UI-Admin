@@ -1,9 +1,12 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
+import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
 import { useAppSelector } from "../redux";
 
 import { Layout } from "antd";
+
+import LoadingComponent from "../components/Loading";
 import SidebarContainer from "../containers/Sidebar";
 
 import Home from "../pages/Home";
@@ -15,7 +18,11 @@ import ProductEdit from "../pages/ProductEdit";
 const { Content } = Layout;
 
 const Router: React.FC = () => {
-  const { user } = useAppSelector((state) => state.auth);
+  const { user, userLoading } = useAppSelector((state) => state.auth);
+
+  if (userLoading) {
+    return <LoadingComponent />;
+  }
 
   if (user) {
     return (
@@ -23,9 +30,9 @@ const Router: React.FC = () => {
         <SidebarContainer />
         <Content style={{ margin: "16px" }}>
           <Switch>
-            <Route path="/signin" exact>
+            <PublicRoute path="/signin" exact>
               <SignIn />
-            </Route>
+            </PublicRoute>
             <PrivateRoute path="/product/add" exact>
               <ProductAdd />
             </PrivateRoute>
@@ -46,9 +53,9 @@ const Router: React.FC = () => {
 
   return (
     <Switch>
-      <Route path="/signin" exact>
+      <PublicRoute path="/signin" exact>
         <SignIn />
-      </Route>
+      </PublicRoute>
       <PrivateRoute path="/product/add" exact>
         <ProductAdd />
       </PrivateRoute>
@@ -63,31 +70,6 @@ const Router: React.FC = () => {
       </PrivateRoute>
     </Switch>
   );
-
-  /* return (
-    <Layout hasSider>
-      <SidebarContainer />
-      <Content style={{ margin: "16px" }}>
-        <Switch>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route path="/signin" exact>
-            <SignIn />
-          </Route>
-          <Route path="/product/add" exact>
-            <ProductAdd />
-          </Route>
-          <Route path="/product/:productId" exact>
-            <ProductDetail />
-          </Route>
-          <Route path="/product/edit/:productId" exact>
-            <ProductEdit />
-          </Route>
-        </Switch>
-      </Content>
-    </Layout>
-  ); */
 };
 
 export default Router;
