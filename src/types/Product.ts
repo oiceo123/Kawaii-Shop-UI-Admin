@@ -25,3 +25,11 @@ export type ProductAddForm = {
   price: number;
   description: string;
 };
+
+export type ProductFilter = {
+  search?: string;
+  page?: number;
+  limit?: number;
+  order_by?: string;
+  sort?: string;
+};
