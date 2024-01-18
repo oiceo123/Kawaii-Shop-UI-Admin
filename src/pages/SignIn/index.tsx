@@ -46,7 +46,7 @@ const SignIn: React.FC = () => {
         localStorage.setItem("oid", res.data.token.id);
         localStorage.setItem("access_token", res.data.token.access_token);
         localStorage.setItem("refresh_token", res.data.token.refresh_token);
-        history.replace("/");
+        history.replace("/?page=1&order_by=price&sort=ASC");
       }
     } catch (error) {
       if (error instanceof Error && error.message === "Unauthorize") {
@@ -75,7 +75,7 @@ const SignIn: React.FC = () => {
     }
   };
 
-/*   if (!background) {
+  /*   if (!background) {
     return <LoadingComponent />;
   } */
 

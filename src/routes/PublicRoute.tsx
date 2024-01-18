@@ -8,7 +8,7 @@ const PublicRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
   if (user) {
     return (
       <Route {...rest}>
-        <Redirect to={"/"} />
+        <Redirect to={"/?page=1&order_by=price&sort=ASC"} />
       </Route>
     );
   }
