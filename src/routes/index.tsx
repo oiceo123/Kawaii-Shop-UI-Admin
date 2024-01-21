@@ -14,6 +14,8 @@ import SignIn from "../pages/SignIn";
 import ProductAdd from "../pages/ProductAdd";
 import ProductDetail from "../pages/ProductDetail";
 import ProductEdit from "../pages/ProductEdit";
+import Users from "../pages/Users";
+import UserAdd from "../pages/UserAdd";
 
 const { Content } = Layout;
 
@@ -42,6 +44,12 @@ const Router: React.FC = () => {
             <PrivateRoute path="/product/edit/:productId" exact>
               <ProductEdit />
             </PrivateRoute>
+            <PrivateRoute path="/users" exact>
+              <Users />
+            </PrivateRoute>
+            <PrivateRoute path="/users/add" exact>
+              <UserAdd />
+            </PrivateRoute>
             <PrivateRoute path="/" exact>
               <Home />
             </PrivateRoute>
@@ -64,6 +72,12 @@ const Router: React.FC = () => {
       </PrivateRoute>
       <PrivateRoute path="/product/edit/:productId" exact>
         <ProductEdit />
+      </PrivateRoute>
+      <PrivateRoute path="/users" exact>
+        <Users />
+      </PrivateRoute>
+      <PrivateRoute path="/users/add" exact>
+        <UserAdd />
       </PrivateRoute>
       <PrivateRoute path="/" exact>
         <Home />
