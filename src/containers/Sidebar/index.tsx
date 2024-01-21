@@ -9,6 +9,7 @@ import {
   AppstoreAddOutlined,
   UserOutlined,
   LogoutOutlined,
+  UserAddOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import SidebarComponent from "../../components/Sidebar";
@@ -62,18 +63,29 @@ const SidebarContainer: React.FC = () => {
   };
 
   const items: MenuItem[] = [
-    getItem("Products", "Products", <AppstoreOutlined />),
-    getItem("Add Proudct", "Add Proudct", <AppstoreAddOutlined />),
-    getItem("User", "User", <UserOutlined />),
+    getItem("Products", "Products", <AppstoreOutlined />, [
+      getItem("Overview", "Overview Products", <AppstoreOutlined />),
+      getItem("Add Proudct", "Add Proudct", <AppstoreAddOutlined />),
+    ]),
+    getItem("Users", "Users", <UserOutlined />, [
+      getItem("Overview", "Overview Users", <UserOutlined />),
+      getItem("Add User", "Add User", <UserAddOutlined />),
+    ]),
     getItem("Logout", "Logout", <LogoutOutlined />),
   ];
 
   const onClick: MenuProps["onClick"] = (e) => {
-    if (e.key === "Products") {
+    if (e.key === "Overview Products") {
       history.push("/");
     }
     if (e.key === "Add Proudct") {
       history.push("/product/add");
+    }
+    if (e.key === "Overview Users") {
+      history.push("/users");
+    }
+    if (e.key === "Add User") {
+      history.push("/users/add");
     }
     if (e.key === "Logout") {
       handleLogout();
