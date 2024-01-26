@@ -17,6 +17,22 @@ export type Product = {
   updated_at: string;
 };
 
+export type ProductFilter = {
+  search?: string;
+  page?: number;
+  limit?: number;
+  order_by?: string;
+  sort?: string;
+};
+
+export type ProductRes = {
+  data: Product[];
+  page: number;
+  limit: number;
+  total_page: number;
+  total_item: number;
+};
+
 export type ProductAddForm = {
   title: string;
   category: {
@@ -24,12 +40,4 @@ export type ProductAddForm = {
   };
   price: number;
   description: string;
-};
-
-export type ProductFilter = {
-  search?: string;
-  page?: number;
-  limit?: number;
-  order_by?: string;
-  sort?: string;
 };
