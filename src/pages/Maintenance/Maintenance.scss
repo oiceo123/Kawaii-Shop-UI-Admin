@@ -1,0 +1,27 @@
+.web-pages-maintenance-container {
+  height: calc(100vh - 32px);
+}
+
+.web-pages-maintenance-body {
+  text-align: center;
+
+  &-icon {
+    font-size: 6rem;
+    border-radius: 50%;
+    border: 5px solid rgb(0, 0, 0);
+    padding: 1.25rem;
+  }
+
+  &-title {
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 56px;
+    padding: 16px;
+  }
+
+  &-subtitle {
+    font-size: 22px;
+    font-weight: 300;
+    padding-top: 10px;
+  }
+}
