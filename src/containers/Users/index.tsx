@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
-import axios from "../../api";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import type { User, UserTable } from "../../types/User";
+import type { UserTable } from "../../types/User";
+import { useAppSelector, useAppDispatch } from "../../redux";
+import { fetchUsers } from "../../redux/slices/userSlice/thunk";
+import { alertError } from "../../helpers/alertError";
 
 import type { TableColumnsType } from "antd";
 
 import TableComponent from "../../components/Table";
-import Swal from "sweetalert2";
+import LoadingComponent from "../../components/Loading";
 
 const columns: TableColumnsType<UserTable> = [
   {
@@ -31,29 +33,22 @@ const columns: TableColumnsType<UserTable> = [
 
 const UsersContainer: React.FC = () => {
   const history = useHistory();
-  const [users, setUsers] = useState<User[]>([]);
+  const dispatch = useAppDispatch();
+  const { users, usersLoading, usersError } = useAppSelector(
+    (state) => state.user
+  );
 
   useEffect(() => {
-    fetchUsers();
+    dispatch(fetchUsers());
   }, []);
 
-  const fetchUsers = async () => {
-    try {
-      const res = await axios.get("/users/admin/profiles");
-      if (res.data) {
-        setUsers(res.data);
-      }
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        text: "An error occurred. Please try again later.",
-        confirmButtonText: "OK",
-        allowOutsideClick: false,
-      }).then((result) => {
-        if (result.isConfirmed) history.replace("/signin");
-      });
-    }
-  };
+  if (usersLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (usersError) {
+    alertError(history)
+  }
 
   return (
     <TableComponent
