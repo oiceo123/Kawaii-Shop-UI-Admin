@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { User } from "./types";
+import type { User } from "../../../types/User";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type authState = {
