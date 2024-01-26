@@ -11,7 +11,7 @@ const { Sider } = Layout;
 
 interface Props {
   items: MenuItem[];
-  onClick: (e) => void;
+  onClick: MenuProps["onClick"];
 }
 
 const SidebarComponent: React.FC<Props> = ({ items, onClick }) => {
@@ -36,7 +36,7 @@ const SidebarComponent: React.FC<Props> = ({ items, onClick }) => {
       </div>
       <Menu
         theme="dark"
-        defaultSelectedKeys={["Products"]}
+        defaultSelectedKeys={["Overview Products"]}
         mode="inline"
         items={items}
         onClick={onClick}
